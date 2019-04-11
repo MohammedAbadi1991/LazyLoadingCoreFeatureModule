@@ -1,24 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { orderList } from '../Models/orderList.model';
+import { OrderService } from '../services/order.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-order-list',
   templateUrl: './order-list.component.html',
   styleUrls: ['./order-list.component.css']
 })
-export class OrderListComponent implements OnInit {
+export class OrderListComponent implements OnInit, OnDestroy {
 
-  constructor() { }
-  foods: Food[] = [
-    { value: 'steak-0', viewValue: 'Steak' },
-    { value: 'pizza-1', viewValue: 'Pizza' },
-    { value: 'tacos-2', viewValue: 'Tacos' }
-  ];
+  constructor(private orderService: OrderService) { }
+  orders: orderList[] = [];
+  getOrdersSubscription: Subscription;
   ngOnInit() {
+    this.getOrdersSubscription = this.orderService.getOrderList().subscribe(x => {
+      this.orders = x;
+    });
   }
 
+  ngOnDestroy(): void {
+    this.getOrdersSubscription.unsubscribe();
+  }
+
+
 }
 
-export interface Food {
-  value: string;
-  viewValue: string;
-}
