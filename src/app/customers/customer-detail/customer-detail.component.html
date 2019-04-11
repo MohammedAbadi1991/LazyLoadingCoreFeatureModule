@@ -1,0 +1,23 @@
+<div class="mt-5 ml-3 row">
+
+  <form [formGroup]="customerForm">
+    <input type="text" formControlName="id">
+    <input type="text" formControlName="firstName">
+    <input type="text" formControlName="lastName">
+    <input type="text" formControlName="desription">
+    <input type="text" formControlName="title">
+  </form>
+
+
+</div>
+
+<div class="ml-3 mt-5  row">
+  <mat-form-field>
+    <mat-label>Company</mat-label>
+    <mat-select>
+      <mat-option *ngFor="let company of companies" [value]="company.id">
+        {{company.companyName}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
